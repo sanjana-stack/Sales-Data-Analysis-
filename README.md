@@ -18,7 +18,7 @@ The heart of this analytics system relies on a strictly structured **Star Schema
   * `Date Table 1` & `Date Table 2` (Enables independent multi-period timeline analysis)
 * **Measures Grouping:** All custom DAX metrics are stored cleanly in a standalone `Measures Table`.
 
-![Data Model Schema]()
+![Data Model Schema](Screenshot/page1.png)
 
 ---
 
@@ -28,25 +28,25 @@ The heart of this analytics system relies on a strictly structured **Star Schema
 * Built a central tabular reporting layout tracking complete row-level item transactions.
 * Implemented highly responsive dimension slicers (`Date`, `Customer Name`, `Product Name`, and `Promotion Name`) using custom visual edit interactions to prevent trend distortion during ad-hoc filtering.
 
-![Overview Matrix](\Screenshot 2026-06-10 151247.png)
+![Overview Matrix](Screenshoot/page5.png)
 
 ### 2. Performance Tracking: Top vs. Bottom Products
 * Engineered concurrent horizontal ranking metrics to immediately contrast performance across three direct core arrays: **Sales Volume**, **Quantity Sold**, and **Net Profit**.
 * *Insight Example:* Automatically highlights core operational anomalies, such as an item moving vast physical quantities but returning weak or negative net profits due to compressed margins.
 
-![Top and Bottom 5 Analysis](\Screenshots\page2.png)
+![Top and Bottom 5 Analysis](Screenshots/page2.png)
 
 ### 3. Requirements Auditing (Advanced Performance Comparison)
 * **Dual Timeline Slicing:** Created a dedicated environment matching parallel, isolated time frames (`Date Filter 1` vs `Date Filter 2`) to let business managers run immediate structural checks of running metrics (`Total Sales`, `Total Profit`, `Total Quantity Sold`) between two distinct operating periods.
 
-![Multi Period Requirements View](Screenshots/Screenshot%202026-06-10%20185022.png)
+![Multi Period Requirements View](Screenshots/page4.png)
 
 ### 4. Market Distributions & Promotion Analysis
 * **Geographical Clustering:** Integrated a deep visual Treemap mapping `Sum of Net Sales by City` to instantly display regional market size.
 * **Discount Efficiency Tracking:** Plotted specific promotional charts mapping discount concentration (e.g., Campaign `PR004` claiming the massive bulk of total discount value).
 * **Correlation Mapping:** Utilized a `Profit V/S Net Sales` scatter plot to separate linear scaling revenue paths from marginal outliers.
 
-![Market Segmentation Page](Screenshots/page1.png)
+![Market Segmentation Page](Screenshots/page3.png)
 
 ---
 
