@@ -67,3 +67,4 @@ The heart of this analytics system relies on a strictly structured **Star Schema
 2. Clone this repository to your local machine using terminal:
    ```bash
    git clone [https://github.com/YOUR_USERNAME/YOUR_REPOSITORY_NAME.git](https://github.com/YOUR_USERNAME/YOUR_REPOSITORY_NAME.git)
+  **Author : Sanjana Ahirwar
