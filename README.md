@@ -1,104 +1,69 @@
-__Build Status:__ [![Build status](https://build.powershell.org/guestAuth/app/rest/builds/buildType:(id:Pester_TestPester)/statusIcon)](https://build.powershell.org/project.html?projectId=Pester&tab=projectOverview&guest=1)
+# Power BI Sales Data Analysis & Data Modeling Portfolio Project
 
-Pester 3.0 has been released!  To see a list of changes in this version, refer to the [What's New in Pester 3.0?](https://github.com/pester/Pester/wiki/What's-New-in-Pester-3.0) Wiki page.
+## 📌 Project Overview
+This repository showcases an end-to-end Power BI data intelligence solution designed to transform raw transactional sales figures into an actionable, multi-page analytical dashboard. 
+
+The primary business goal of this project is to audit sales trends, track profitability streams, isolate top/bottom performing product lines, and analyze the distribution of marketing discounts across various promotions and regions.
 
 ---
 
-Pester
-=======
-Pester provides a framework for **running unit tests to execute and validate PowerShell commands from within PowerShell**. Pester consists of a simple set of functions that expose a testing domain-specific language (DSL) for isolating, running, evaluating and reporting the results of PowerShell commands.
+## 🏗️ Relational Architecture & Data Modeling
+The heart of this analytics system relies on a strictly structured **Star Schema** to enforce optimal query speeds and clean filter propagation. 
 
-Pester tests can execute any command or script that is accessible to a Pester test file. This can include functions, cmdlets, modules and scripts. Pester can be run in *ad-hoc* style in a console or **it can be integrated into the build scripts of a continuous integration (CI) system**.
+* **Fact Table:** `Fact table` containing transactional records (`Net Sales`, `Units Sold`, `Profit`, `Discount`, `Price Per unit`).
+* **Dimension Tables:** Formulated with 1-to-many ($1:\infty$) relational links pointing toward the fact table:
+  * `Dim Product` (Maintains Product ID, Product Name, Product Line, and base Price Per Unit)
+  * `Dim Customers` (Tracks Customer Details, City, State, and Pincodes)
+  * `Dim Promotion` (Profiles marketing elements including Coupon Codes and Promotion Names)
+  * `Date Table 1` & `Date Table 2` (Enables independent multi-period timeline analysis)
+* **Measures Grouping:** All custom DAX metrics are stored cleanly in a standalone `Measures Table`.
 
-**Pester also contains a powerful set of mocking functions** in which tests mimic any command functionality within the tested PowerShell code.
+![Data Model Schema](Screenshots/Screenshot%202026-06-10%20191319.png)
 
-A Pester Test
--------------
-BuildChanges.ps1
+---
 
-```powershell
+## 🛠️ Dashboard Breakdown & Core Layouts
 
-function Build ($version) {
-  write-host "A build was run for version: $version"
-}
+### 1. Central Data Ledger (Overview & Dynamic Slicers)
+* Built a central tabular reporting layout tracking complete row-level item transactions.
+* Implemented highly responsive dimension slicers (`Date`, `Customer Name`, `Product Name`, and `Promotion Name`) using custom visual edit interactions to prevent trend distortion during ad-hoc filtering.
 
-function BuildIfChanged {
-  $thisVersion=Get-Version
-  $nextVersion=Get-NextVersion
-  if($thisVersion -ne $nextVersion) {Build $nextVersion}
-  return $nextVersion
-}
-```
+![Overview Matrix](Screenshots/Screenshot%202026-06-10%20192631.png)
 
-BuildChanges.Tests.ps1
+### 2. Performance Tracking: Top vs. Bottom Products
+* Engineered concurrent horizontal ranking metrics to immediately contrast performance across three direct core arrays: **Sales Volume**, **Quantity Sold**, and **Net Profit**.
+* *Insight Example:* Automatically highlights core operational anomalies, such as an item moving vast physical quantities but returning weak or negative net profits due to compressed margins.
 
-```powershell
-$here = Split-Path -Parent $MyInvocation.MyCommand.Path
-$sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
-. "$here\$sut"
+![Top and Bottom 5 Analysis](Screenshots/Screenshot%202026-06-10%20151247.png)
 
-Describe "BuildIfChanged" {
-  Context "When there are changes" {
-    Mock Get-Version {return 1.1}
-    Mock Get-NextVersion {return 1.2}
-    Mock Build {} -Verifiable -ParameterFilter {$version -eq 1.2}
+### 3. Requirements Auditing (Advanced Performance Comparison)
+* **Dual Timeline Slicing:** Created a dedicated environment matching parallel, isolated time frames (`Date Filter 1` vs `Date Filter 2`) to let business managers run immediate structural checks of running metrics (`Total Sales`, `Total Profit`, `Total Quantity Sold`) between two distinct operating periods.
 
-    $result = BuildIfChanged
+![Multi Period Requirements View](Screenshots/Screenshot%202026-06-10%20185022.png)
 
-      It "Builds the next version" {
-          Assert-VerifiableMocks
-      }
-      It "Returns the next version number" {
-          $result | Should Be 1.2
-      }
-    }
-  Context "When there are no changes" {
-    Mock Get-Version -MockWith {return 1.1}
-    Mock Get-NextVersion -MockWith {return 1.1}
-    Mock Build {}
+### 4. Market Distributions & Promotion Analysis
+* **Geographical Clustering:** Integrated a deep visual Treemap mapping `Sum of Net Sales by City` to instantly display regional market size.
+* **Discount Efficiency Tracking:** Plotted specific promotional charts mapping discount concentration (e.g., Campaign `PR004` claiming the massive bulk of total discount value).
+* **Correlation Mapping:** Utilized a `Profit V/S Net Sales` scatter plot to separate linear scaling revenue paths from marginal outliers.
 
-    $result = BuildIfChanged
+![Market Segmentation Page](Screenshots/Screenshot%202026-06-10%20151647.png)
 
-      It "Should not build the next version" {
-          Assert-MockCalled Build -Times 0 -ParameterFilter {$version -eq 1.1}
-      }
-    }
-}
-```
+---
 
-Running Tests
--------------
-    C:\PS> Invoke-Pester
+## 📊 Business Insights Uncovered
+* **Margin Compression Risks:** Analysis proves that heavy transactional volume doesn't inherently build profitability. High-volume items frequently drift into the bottom net profit slots due to structural cost baselines or over-extended pricing reductions.
+* **Promotional Over-Reliance:** Coupon audit visuals demonstrate a strong concentration of campaign engagement funneling strictly through a single campaign tier (`PR004`). This alerts stakeholders to potential revenue vulnerability if that single promotion structure changes.
 
-This will run all tests inside of files named `*.Tests.ps1` recursively from the current directory and print a report of all failing and passing test results to the console.
+---
 
-    C:\PS> Invoke-Pester -TestName BuildIfChanged
+## 📂 Repository Contents
+* **`SALES DATA ANYLSIS.pbix`**: The underlying Power BI Desktop development file containing the final visuals, relational keys, and data models.
+* **`/Screenshots/`**: Local subfolder hosting the specific visual interface captures embedded across this documentation file.
 
-You can also run specific tests by using the `-TestName` parameter of the `Invoke-Pester` command. The above example runs all tests with a `Describe` block named `BuildIfChanged`. If you want to run multiple tests, you can pass a string array into the `-TestName` parameter, similar to the following example:
+---
 
-    C:\PS> Invoke-Pester -TestName BuildIfChanged, BaconShouldBeCrispy
-
-Continuous Integration with Pester
------------------------------------
-
-Pester integrates well with almost any build automation solution.  There are several options for this integration:
-
-- The `-OutputFile` parameter allows you to export data about the test execution.  Currently, this parameter allows you to produce NUnit-style XML output, which any modern CI solution should be able to read.
-- The `-PassThru` parameter can be used if your CI solution supports running PowerShell code directly.  After Pester finishes running, check the FailedCount property on the object to determine whether any tests failed, and take action from there.
-- The `-EnableExit` switch causes Pester to exit the current PowerShell session with an error code. This error code will be the number of failed tests; 0 indicates success.
-
-As an example, there is also a file named `Pester.bat` in the `bin` folder which shows how you might integrate with a CI solution that does not support running PowerShell directly.  By wrapping a call to `Invoke-Pester` in a batch file, and making sure that batch file returns a non-zero exit code if any tests fail, you can still use Pester even when limited to cmd.exe commands in your CI jobs.
-
-Whenever possible, it's better to run Invoke-Pester directly (either in an interactive PowerShell session, or using CI software that supports running PowerShell steps in jobs). This is the method that we test and support in our releases.
-
-For Further Learning:
------------------------------------
-* [Getting started with Pester](http://www.powershellmagazine.com/2014/03/12/get-started-with-pester-powershell-unit-testing-framework/)
-* [Testing your scripts with Pester, Assertions and more](http://www.powershellmagazine.com/2014/03/27/testing-your-powershell-scripts-with-pester-assertions-and-more/)
-* [Pester Wiki](https://github.com/pester/Pester/wiki)
-* [Google Discussion Group](https://groups.google.com/forum/?fromgroups#!forum/pester)
-* `C:\PS> Import-Module ./pester.psm1; Get-Help about_pester`
-* Microsoft's PowerShell test suite itself is being converted into Pester tests. [See the PowerShell-Tests repository.](https://github.com/PowerShell/PowerShell-Tests)
-* Note: The following two links were for Pester v1.0.  The syntax shown, particularly for performing assertions with Should, is no longer applicable to later versions of Pester.
-    * [powershell-bdd-testing-pester-screencast](http://scottmuc.com/blog/development/powershell-bdd-testing-pester-screencast/)
-    * [pester-bdd-for-the-system-administrator](http://scottmuc.com/blog/development/pester-bdd-for-the-system-administrator/)
+## 🚀 How to Run and Interact with the File
+1. Download and install the latest version of [Power BI Desktop](https://powerbi.microsoft.com/desktop/).
+2. Clone this repository to your local machine using terminal:
+   ```bash
+   git clone [https://github.com/YOUR_USERNAME/YOUR_REPOSITORY_NAME.git](https://github.com/YOUR_USERNAME/YOUR_REPOSITORY_NAME.git)
