@@ -46,7 +46,7 @@ The heart of this analytics system relies on a strictly structured **Star Schema
 * **Discount Efficiency Tracking:** Plotted specific promotional charts mapping discount concentration (e.g., Campaign `PR004` claiming the massive bulk of total discount value).
 * **Correlation Mapping:** Utilized a `Profit V/S Net Sales` scatter plot to separate linear scaling revenue paths from marginal outliers.
 
-![Market Segmentation Page](Screenshots/Screenshot%202026-06-10%20151647.png)
+![Market Segmentation Page](Screenshots/page1.png)
 
 ---
 
