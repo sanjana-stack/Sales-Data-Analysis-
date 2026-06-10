@@ -28,7 +28,7 @@ The heart of this analytics system relies on a strictly structured **Star Schema
 * Built a central tabular reporting layout tracking complete row-level item transactions.
 * Implemented highly responsive dimension slicers (`Date`, `Customer Name`, `Product Name`, and `Promotion Name`) using custom visual edit interactions to prevent trend distortion during ad-hoc filtering.
 
-![Overview Matrix](Screenshots/Screenshot%202026-06-10%20192631.png)
+![Overview Matrix](\Screenshot 2026-06-10 151247.png)
 
 ### 2. Performance Tracking: Top vs. Bottom Products
 * Engineered concurrent horizontal ranking metrics to immediately contrast performance across three direct core arrays: **Sales Volume**, **Quantity Sold**, and **Net Profit**.
