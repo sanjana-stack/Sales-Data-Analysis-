@@ -34,7 +34,7 @@ The heart of this analytics system relies on a strictly structured **Star Schema
 * Engineered concurrent horizontal ranking metrics to immediately contrast performance across three direct core arrays: **Sales Volume**, **Quantity Sold**, and **Net Profit**.
 * *Insight Example:* Automatically highlights core operational anomalies, such as an item moving vast physical quantities but returning weak or negative net profits due to compressed margins.
 
-![Top and Bottom 5 Analysis](Screenshots\Screenshot 2026-06-10 151247.png)
+![Top and Bottom 5 Analysis](Screenshots\page2.png)
 
 ### 3. Requirements Auditing (Advanced Performance Comparison)
 * **Dual Timeline Slicing:** Created a dedicated environment matching parallel, isolated time frames (`Date Filter 1` vs `Date Filter 2`) to let business managers run immediate structural checks of running metrics (`Total Sales`, `Total Profit`, `Total Quantity Sold`) between two distinct operating periods.
